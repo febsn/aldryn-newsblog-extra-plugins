@@ -11,7 +11,7 @@ from taggit.models import Tag
 
 from .utils import get_additional_styles
 
-STANDARD = 'standard'
+STANDARD = 'list'
 
 @python_2_unicode_compatible
 class NewsBlogTaggedArticlesPlugin(PluginEditModeMixin, NewsBlogCMSPlugin):

@@ -18,8 +18,8 @@ class NewsBlogTaggedArticlesPlugin(CMSPluginBase):
     module = _('News & Blog')
     form = forms.NewsBlogTaggedArticlesPluginForm
     
-    TEMPLATE_NAME = 'aldryn_newsblog/plugins/tagged_articles/%s.html'
-    TEMPLATE_DEFAULT = 'standard'
+    TEMPLATE_NAME = 'aldryn_newsblog/plugins/%s.html'
+    TEMPLATE_DEFAULT = 'list'
     render_template = TEMPLATE_NAME % TEMPLATE_DEFAULT
     
     def render(self, context, instance, placeholder):

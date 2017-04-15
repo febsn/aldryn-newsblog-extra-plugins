@@ -4,14 +4,19 @@ from __future__ import unicode_literals
 from django.conf import settings
 import six
 
-def get_additional_styles():
+def get_additional_styles(extra_name=False):
     """
     Get additional styles choices from settings
 
     Copied from aldryn-events.utils
     """
     choices = []
-    raw = getattr(settings, 'ALDRYN_NEWSBLOG_PLUGIN_STYLES', False)
+    if extra_name:
+        raw = getattr(settings, 'ALDRYN_NEWSBLOG_TAGGED_ARTICLES_PLUGIN_STYLES',
+            getattr(settings, 'ALDRYN_NEWSBLOG_PLUGIN_STYLES', False)
+        )
+    else:
+        raw = getattr(settings, 'ALDRYN_NEWSBLOG_PLUGIN_STYLES', False)
 
     if raw:
         if isinstance(raw, six.string_types):
