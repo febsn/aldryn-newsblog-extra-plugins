@@ -1,3 +1,3 @@
 {% for article in article_list %}
-{% include "aldryn_newsblog/includes/article.html" %}
+{% include "aldryn_newsblog/includes/article.html" with namespace=instance.app_config.namespace %}
 {% endfor %}

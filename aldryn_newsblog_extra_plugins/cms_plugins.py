@@ -9,6 +9,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from aldryn_newsblog.models import Article
+from aldryn_newsblog.cms_plugins import NewsBlogRelatedPlugin
 from . import forms, models
 
 @plugin_pool.register_plugin
@@ -29,3 +30,11 @@ class NewsBlogTaggedArticlesPlugin(CMSPluginBase):
         context['instance'] = instance
         context['article_list'] = instance.get_articles(request)
         return context
+
+
+@plugin_pool.register_plugin
+class NewsBlogTagRelatedPlugin(NewsBlogRelatedPlugin):
+    render_template = 'aldryn_newsblog/plugins/tag_related_articles.html'
+    name = _('Similarly tagged Articles')
+    model = models.NewsBlogTagRelatedPlugin
+    form = forms.NewsBlogTagRelatedPluginForm

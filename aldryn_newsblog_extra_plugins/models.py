@@ -3,11 +3,13 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext, ugettext_lazy as _
 
-from aldryn_newsblog.models import Article, PluginEditModeMixin, NewsBlogCMSPlugin
+from aldryn_newsblog.models import Article, PluginEditModeMixin, NewsBlogCMSPlugin, AdjustableCacheModelMixin
 from aldryn_newsblog.utils.utilities import get_valid_languages_from_request
+from cms.models.pluginmodel import CMSPlugin
 from taggit.models import Tag
+from taggit.managers import TaggableManager
 
 from .utils import get_additional_styles
 
@@ -53,3 +55,31 @@ class NewsBlogTaggedArticlesPlugin(PluginEditModeMixin, NewsBlogCMSPlugin):
         if self.article_count > 0:
             queryset = queryset[:self.article_count]
         return queryset
+
+
+@python_2_unicode_compatible
+class NewsBlogTagRelatedPlugin(PluginEditModeMixin, AdjustableCacheModelMixin,
+                            CMSPlugin):
+    # NOTE: This one does NOT subclass NewsBlogCMSPlugin. This is because this
+    # plugin can really only be placed on the article detail view in an apphook.
+    cmsplugin_ptr = models.OneToOneField(
+        CMSPlugin, related_name='+', parent_link=True)
+    exclude_tags = TaggableManager(verbose_name=_('excluded tags'))
+
+    def get_articles(self, article, request):
+        """
+        Returns a queryset of articles that have common tags with the given article.
+        """
+        languages = get_valid_languages_from_request(
+            article.app_config.namespace, request)
+        if self.language not in languages:
+            return Article.objects.none()
+        qs = Article.objects.filter(
+            tags__in=article.tags.all()).exclude(
+            tags__in=self.exclude_tags.all()).translated(*languages)
+        if not self.get_edit_mode(request):
+            qs = qs.published()
+        return qs.distinct()
+
+    def __str__(self):
+        return ugettext('Tag-related articles')
