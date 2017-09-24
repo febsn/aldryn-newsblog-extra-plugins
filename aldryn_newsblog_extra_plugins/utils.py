@@ -12,7 +12,7 @@ def get_additional_styles(extra_name=False):
     """
     choices = []
     if extra_name:
-        raw = getattr(settings, 'ALDRYN_NEWSBLOG_TAGGED_ARTICLES_PLUGIN_STYLES',
+        raw = getattr(settings, extra_name,
             getattr(settings, 'ALDRYN_NEWSBLOG_PLUGIN_STYLES', False)
         )
     else:

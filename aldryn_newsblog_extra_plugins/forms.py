@@ -16,4 +16,4 @@ class NewsBlogTaggedArticlesPluginForm(AutoAppConfigFormMixin, forms.ModelForm):
 class NewsBlogTagRelatedPluginForm(AutoAppConfigFormMixin, forms.ModelForm):
     class Meta:
         model = models.NewsBlogTagRelatedPlugin
-        fields = ['exclude_tags',]
+        fields = ['exclude_tags', 'style', 'article_count',]
