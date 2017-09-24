@@ -29,7 +29,7 @@ class NewsBlogTaggedArticlesPlugin(StyleTemplateMixin, CMSPluginBase):
     form = forms.NewsBlogTaggedArticlesPluginForm
 
     TEMPLATE_NAME = 'aldryn_newsblog/plugins/{}.html'
-    TEMPLATE_DEFAULT = 'related_articles'
+    TEMPLATE_DEFAULT = 'tagged_articles'
 
     def render(self, context, instance, placeholder):
         request = context.get('request')
