@@ -40,7 +40,7 @@ setup(
     version=__version__,
     description='Extra plugins for aldryn-newsblog.',
     author='Fabian Lehner',
-    author_email='fl@makonis.net',
+    author_email='fabian.lehner@marmara.at',
     url='https://github.com/febsn/aldryn-newsblog-extra-plugins',
     packages=find_packages(),
     install_requires=INSTALL_REQUIRES,

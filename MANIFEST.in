@@ -2,5 +2,5 @@
 include LICENSE
 include README.md
 
-# Include templates
-recursive-include *.html
+recursive-include aldryn_newsblog_extra_plugins/locale *
+recursive-include aldryn_newsblog_extra_plugins/templates *
