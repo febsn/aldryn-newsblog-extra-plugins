@@ -27,3 +27,8 @@ article.
 
 This plugin only works correctly in a static placeholder on the aldryn_newsblog
 detail view.
+
+# Changelog
+## 0.1.0
+NewsBlogTaggedArticlesPlugin now uses a separate template
+(`aldryn_newsblog/plugins/tagged_articles.html`).
