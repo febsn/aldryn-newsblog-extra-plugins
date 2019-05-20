@@ -4,14 +4,12 @@ from __future__ import unicode_literals
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.conf import settings
 from django.template.loader import select_template
 from django.utils.translation import ugettext_lazy as _
 
-from aldryn_newsblog.models import Article
 from aldryn_newsblog.cms_plugins import NewsBlogRelatedPlugin
 from . import forms, models
+
 
 class StyleTemplateMixin(object):
     def get_render_template(self, context, instance, placeholder):
@@ -20,6 +18,7 @@ class StyleTemplateMixin(object):
             self.TEMPLATE_NAME.format(self.TEMPLATE_DEFAULT),
         ))
         return template
+
 
 @plugin_pool.register_plugin
 class NewsBlogTaggedArticlesPlugin(StyleTemplateMixin, CMSPluginBase):
