@@ -17,11 +17,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='NewsBlogTaggedArticlesPlugin',
             fields=[
-                ('cmsplugin_ptr', models.OneToOneField(parent_link=True, related_name='+', primary_key=True, serialize=False, to='cms.CMSPlugin')),
+                ('cmsplugin_ptr', models.OneToOneField(parent_link=True, related_name='+', on_delete=models.CASCADE, primary_key=True, serialize=False, to='cms.CMSPlugin')),
                 ('style', models.CharField(default='standard', max_length=50, verbose_name='Style', choices=[('standard', 'Standard')])),
                 ('article_count', models.PositiveIntegerField(default=10, help_text='The maximum number of tagged articles to display (0 for all).')),
-                ('app_config', models.ForeignKey(verbose_name='Apphook configuration', to='aldryn_newsblog.NewsBlogConfig')),
-                ('tag', models.ForeignKey(verbose_name='tag', to='taggit.Tag')),
+                ('app_config', models.ForeignKey(verbose_name='Apphook configuration', to='aldryn_newsblog.NewsBlogConfig', on_delete=models.CASCADE)),
+                ('tag', models.ForeignKey(verbose_name='tag', to='taggit.Tag', on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,

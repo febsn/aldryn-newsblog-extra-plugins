@@ -21,16 +21,20 @@ class NewsBlogTaggedArticlesPlugin(PluginEditModeMixin, NewsBlogCMSPlugin):
         (STANDARD, _('Standard')),
     ]
 
-    tag = models.ForeignKey(Tag, verbose_name=_('tag'))
+    tag = models.ForeignKey(
+        Tag,
+        verbose_name=_('tag'),
+        on_delete=models.CASCADE,
+    )
     style = models.CharField(
         verbose_name=_('Style'),
         choices=STYLE_CHOICES + get_additional_styles(),
         default=STANDARD,
-        max_length=50
+        max_length=50,
     )
     article_count = models.PositiveIntegerField(
         default=10,
-        help_text=_('The maximum number of tagged articles to display (0 for all).')
+        help_text=_('The maximum number of tagged articles to display (0 for all).'),
     )
 
     def __str__(self):
@@ -67,17 +71,21 @@ class NewsBlogTagRelatedPlugin(PluginEditModeMixin, AdjustableCacheModelMixin,
     ]
 
     cmsplugin_ptr = models.OneToOneField(
-        CMSPlugin, related_name='+', parent_link=True)
+        CMSPlugin,
+        related_name='+',
+        parent_link=True,
+        on_delete=models.CASCADE,
+    )
     exclude_tags = TaggableManager(verbose_name=_('excluded tags'), blank=True)
     style = models.CharField(
         verbose_name=_('Style'),
         choices=STYLE_CHOICES + get_additional_styles(),
         default=STANDARD,
-        max_length=50
+        max_length=50,
     )
     article_count = models.PositiveIntegerField(
         default=10,
-        help_text=_('The maximum number of tagged articles to display (0 for all).')
+        help_text=_('The maximum number of tagged articles to display (0 for all).'),
     )
 
     def get_articles(self, article, request):

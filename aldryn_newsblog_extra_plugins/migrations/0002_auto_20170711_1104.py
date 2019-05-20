@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             name='NewsBlogTagRelatedPlugin',
             fields=[
                 ('cache_duration', models.PositiveSmallIntegerField(default=0, help_text="The maximum duration (in seconds) that this plugin's content should be cached.")),
-                ('cmsplugin_ptr', models.OneToOneField(parent_link=True, related_name='+', primary_key=True, serialize=False, to='cms.CMSPlugin')),
+                ('cmsplugin_ptr', models.OneToOneField(parent_link=True, related_name='+', on_delete=models.CASCADE, primary_key=True, serialize=False, to='cms.CMSPlugin')),
                 ('exclude_tags', taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', help_text='A comma-separated list of tags.', verbose_name='Tags')),
             ],
             options={
