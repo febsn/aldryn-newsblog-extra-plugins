@@ -5,6 +5,7 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext, ugettext_lazy as _
 
+from aldryn_categories.fields import CategoryForeignKey
 from aldryn_newsblog.models import Article, PluginEditModeMixin, NewsBlogCMSPlugin, AdjustableCacheModelMixin
 from aldryn_newsblog.utils.utilities import get_valid_languages_from_request
 from cms.models.pluginmodel import CMSPlugin
@@ -109,3 +110,50 @@ class NewsBlogTagRelatedPlugin(PluginEditModeMixin, AdjustableCacheModelMixin,
 
     def __str__(self):
         return ugettext('Tag-related articles')
+
+
+@python_2_unicode_compatible
+class NewsBlogLatestArticlesByCategoryPlugin(PluginEditModeMixin,
+                                             AdjustableCacheModelMixin,
+                                             NewsBlogCMSPlugin):
+    STYLE_CHOICES = [
+        (STANDARD, _('Standard')),
+    ]
+    category = CategoryForeignKey(
+        verbose_name=_('category'),
+    )
+    style = models.CharField(
+        verbose_name=_('Style'),
+        choices=STYLE_CHOICES + get_additional_styles(),
+        default=STANDARD,
+        max_length=50,
+    )
+    article_count = models.IntegerField(
+        default=5,
+        verbose_name=_('count'),
+        help_text=_("The maximum number of latest articles to display."),
+    )
+
+    def get_articles(self, request):
+        """
+        Return a queryset of the latest articles, filtered by the category set in the plugin
+        settings and sliced to the desired count.
+        """
+        queryset = Article.objects
+        if not self.get_edit_mode(request):
+            queryset = queryset.published()
+        languages = get_valid_languages_from_request(
+            self.app_config.namespace, request)
+        if self.language not in languages:
+            return queryset.none()
+        queryset = queryset.translated(*languages).filter(
+            app_config=self.app_config).filter(
+            categories=self.category)
+        return queryset[:self.article_count]
+
+    def __str__(self):
+        return ugettext("{app_title}'s {article_count} latest articles with category {category}".format(
+            app_title=self.app_config.get_app_title(),
+            article_count=self.article_count,
+            category=self.category,
+        ))

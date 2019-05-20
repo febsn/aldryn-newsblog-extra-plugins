@@ -7,7 +7,7 @@ from cms.plugin_pool import plugin_pool
 from django.template.loader import select_template
 from django.utils.translation import ugettext_lazy as _
 
-from aldryn_newsblog.cms_plugins import NewsBlogRelatedPlugin
+from aldryn_newsblog.cms_plugins import NewsBlogLatestArticlesPlugin, NewsBlogRelatedPlugin
 from . import forms, models
 
 
@@ -46,3 +46,14 @@ class NewsBlogTagRelatedPlugin(StyleTemplateMixin, NewsBlogRelatedPlugin):
 
     TEMPLATE_NAME = 'aldryn_newsblog/plugins/{}.html'
     TEMPLATE_DEFAULT = 'related_articles'
+
+
+@plugin_pool.register_plugin
+class NewsBlogLatestArticlesByCategoryPlugin(StyleTemplateMixin, NewsBlogLatestArticlesPlugin):
+    name = _('Latest Articles by category')
+    module = _('News & Blog')
+    model = models.NewsBlogLatestArticlesByCategoryPlugin
+    form = forms.NewsBlogLatestArticlesByCategoryPluginForm
+
+    TEMPLATE_NAME = 'aldryn_newsblog/plugins/{}.html'
+    TEMPLATE_DEFAULT = 'latest_articles_by_category'
