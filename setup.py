@@ -48,6 +48,7 @@ setup(
     platforms=['OS Independent'],
     classifiers=CLASSIFIERS,
     long_description=open('README.md').read(),
+    long_description_content_type="text/markdown",
     include_package_data=True,
     zip_safe=False,
 )
