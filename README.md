@@ -32,3 +32,9 @@ detail view.
 ## 0.1.0
 NewsBlogTaggedArticlesPlugin now uses a separate template
 (`aldryn_newsblog/plugins/tagged_articles.html`).
+
+## 0.2.0
+Added NewsBlogCategoryRelatedPlugin.
+
+Changed NewsBlogTagRelatedPlugin behaviour: The plugin's `excluded_tags` now don't exclude articles
+from the queryset anymore, they just aren't taken into account for selecting the related articles of the currently displayed article.
