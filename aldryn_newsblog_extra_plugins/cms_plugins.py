@@ -49,6 +49,17 @@ class NewsBlogTagRelatedPlugin(StyleTemplateMixin, NewsBlogRelatedPlugin):
 
 
 @plugin_pool.register_plugin
+class NewsBlogCategoryRelatedPlugin(StyleTemplateMixin, NewsBlogRelatedPlugin):
+    name = _('Similarly categorized Articles')
+    module = _('News & Blog')
+    model = models.NewsBlogCategoryRelatedPlugin
+    form = forms.NewsBlogCategoryRelatedPluginForm
+
+    TEMPLATE_NAME = 'aldryn_newsblog/plugins/{}.html'
+    TEMPLATE_DEFAULT = 'related_articles'
+
+
+@plugin_pool.register_plugin
 class NewsBlogLatestArticlesByCategoryPlugin(StyleTemplateMixin, NewsBlogLatestArticlesPlugin):
     name = _('Latest Articles by category')
     module = _('News & Blog')
